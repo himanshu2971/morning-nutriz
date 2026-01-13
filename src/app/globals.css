@@ -1,0 +1,55 @@
+@import "tailwindcss";
+
+@theme {
+  /* Flyer-inspired colors */
+  --color-primary: #00A651;        /* vibrant green */
+  --color-primary-dark: #00843D;   /* darker green */
+  --color-accent: #FF6B00;         /* orange */
+  --color-accent-dark: #E55A00;    /* darker orange */
+  --color-cream: #FAFAFA;          /* light bg */
+  --color-sun: #FFF3CD;            /* subtle yellow */
+
+  /* Bold typography */
+  --font-display: "Poppins", "SF Pro Display", system-ui, sans-serif;
+  --font-sans: "Inter", "SF Pro Text", system-ui, sans-serif;
+
+  /* Radii & shadows */
+  --radius-lg: 20px;
+  --shadow-soft: 0 20px 60px rgba(0, 166, 81, 0.08);
+}
+
+
+*,
+*::before,
+*::after {
+  box-sizing: border-box;
+}
+
+html,
+body {
+  margin: 0;
+  padding: 0;
+}
+
+body {
+  font-family: var(--font-sans);
+  background-color: var(--color-cream);
+}
+
+/* Utility helpers */
+.bg-primary {
+  background-color: var(--color-primary);
+}
+.bg-primary-dark {
+  background-color: var(--color-primary-dark);
+}
+.bg-accent {
+  background-color: var(--color-accent);
+}
+.text-accent {
+  color: var(--color-accent);
+}
+.shadow-soft {
+  box-shadow: var(--shadow-soft);
+}
+
