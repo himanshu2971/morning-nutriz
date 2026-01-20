@@ -39,36 +39,39 @@ function planBadge(planId: string) {
 
 function parseDailyMenuBullets(plan: Plan) {
   const s = (plan.dailyMenu || "").toLowerCase();
-
   const bullets: string[] = [];
 
-  // Base bowl (your standard structure)
-  if (s.includes("fruits") || s.includes("veg") || s.includes("protein")) {
-    // try to extract grams in a readable way if present
-    const grams = plan.dailyMenu.match(/(\d+\s?g)/gi);
-    if (grams && grams.length >= 2) {
-      bullets.push(`Balanced bowl: ${plan.dailyMenu}`);
-    } else {
-      bullets.push("Balanced bowl: fruits + vegetables + protein base");
-    }
-  } else {
-    bullets.push("Balanced bowl built for a consistent morning routine");
-  }
+  bullets.push(plan.dailyMenu ? `Daily bowl: ${plan.dailyMenu}` : "Daily bowl: fruits + vegetables + protein base");
 
-  // Differentiators
   if (s.includes("dry fruits") || s.includes("seeds")) bullets.push("Dry fruits + seeds for better satiety");
   if (s.includes("egg")) bullets.push("Protein boost with eggs");
   if (s.includes("chicken")) bullets.push("Protein boost with chicken (cooked)");
 
-  // Always show protein/day from your catalog
   bullets.push(`Protein/day: ${plan.proteinPerDay}`);
-
-  // Routine promises (home page, not full plan detail)
   bullets.push("Menu rotates daily (no decision fatigue)");
   bullets.push("Pause/cancel anytime");
 
-  // Keep it tight on Home
   return bullets.slice(0, 5);
+}
+
+function maxProtein(plans: Plan[]) {
+  let best = { value: 0, label: "" };
+  for (const p of plans) {
+    const nums = (p.proteinPerDay.match(/\d+/g) || []).map((x) => Number(x)).filter((n) => !Number.isNaN(n));
+    const max = nums.length ? Math.max(...nums) : 0;
+    if (max > best.value) best = { value: max, label: p.planName };
+  }
+  return best;
+}
+
+function minMonthly(plans: Plan[]) {
+  let best: { value: number; label: string } | null = null;
+  for (const p of plans) {
+    const m = p.pricesInr.monthly;
+    if (!m) continue;
+    if (!best || m < best.value) best = { value: m, label: p.planName };
+  }
+  return best;
 }
 
 function CheckIcon({ className = "h-5 w-5" }: { className?: string }) {
@@ -96,74 +99,109 @@ export default function HomePage() {
   const featured = plans.find((p) => p.id === featuredId) ?? plans[0];
   const others = plans.filter((p) => p.id !== featured?.id);
 
+  const maxP = maxProtein(plans);
+  const minM = minMonthly(plans);
+
   return (
     <div className="bg-premium">
-      {/* HERO */}
-      <Container>
-        <div className="pt-10 sm:pt-14">
-          <GlassCard className="overflow-hidden">
-            <div className="grid items-stretch lg:grid-cols-2">
-              <div className="p-8 sm:p-10">
-                <div className="inline-flex items-center gap-2 rounded-full bg-white/70 px-4 py-2 text-xs font-black text-slate-900 ring-1 ring-slate-900/10">
+      {/* FULL-BLEED HERO (no GlassCard box) */}
+      <section className="relative overflow-hidden">
+        <div className="absolute inset-0">
+          <Image
+            src="/images/hero/morning-nutriz-hero.jpg"
+            alt="Morning Nutriz hero breakfast bowl"
+            fill
+            priority
+            sizes="100vw"
+            className="object-cover"
+          />
+          <div className="absolute inset-0 bg-gradient-to-r from-black/70 via-black/35 to-black/10" />
+          <div className="absolute inset-0 bg-[radial-gradient(900px_600px_at_20%_20%,rgba(16,185,129,0.25),transparent_60%)]" />
+        </div>
+
+        {/* Keep content centered with wide max width */}
+        <Container fluid className="relative">
+          <div className="mx-auto max-w-[1440px] px-4 sm:px-6 lg:px-10 py-16 sm:py-20 lg:py-24">
+            <div className="grid gap-10 lg:grid-cols-12 lg:items-center">
+              <div className="lg:col-span-7">
+                <div className="inline-flex items-center gap-2 rounded-full bg-white/10 px-4 py-2 text-xs font-black text-white ring-1 ring-white/15 backdrop-blur-xl">
                   Bengaluru • Morning delivery • Subscription-first
                 </div>
 
-                <h1 className="mt-6 font-display text-4xl font-black leading-tight text-slate-900 sm:text-5xl">
-                  Healthy breakfast,
-                  <span className="text-primary"> done daily</span>.
+                <h1 className="mt-6 font-display text-4xl font-black leading-tight text-white sm:text-5xl">
+                  The breakfast routine that
+                  <span className="text-emerald-300"> stays consistent</span>.
                 </h1>
 
-                <p className="mt-4 max-w-xl text-lg leading-relaxed text-slate-600">
-                  Rotating fruits + vegetables + protein base, packed fresh and delivered on schedule.
-                  Pick a plan once, wake up to a routine.
+                <p className="mt-4 max-w-2xl text-lg leading-relaxed text-white/75">
+                  Fresh bowl. Rotating menu. Protein that scales from kids to high-performance.
+                  Pick once and forget the daily decision.
                 </p>
 
-                <div className="mt-8 grid gap-3 sm:grid-cols-3">
-                  <div className="rounded-2xl bg-white/60 p-4 ring-1 ring-slate-900/10">
-                    <div className="text-xs font-bold uppercase tracking-widest text-slate-500">Fresh prep</div>
-                    <div className="mt-1 text-sm font-black text-slate-900">Daily rotation</div>
-                  </div>
-                  <div className="rounded-2xl bg-white/60 p-4 ring-1 ring-slate-900/10">
-                    <div className="text-xs font-bold uppercase tracking-widest text-slate-500">Consistent</div>
-                    <div className="mt-1 text-sm font-black text-slate-900">Routine-friendly</div>
-                  </div>
-                  <div className="rounded-2xl bg-white/60 p-4 ring-1 ring-slate-900/10">
-                    <div className="text-xs font-bold uppercase tracking-widest text-slate-500">Upgrade</div>
-                    <div className="mt-1 text-sm font-black text-slate-900">Add-ons anytime</div>
-                  </div>
-                </div>
-
-                <div className="mt-10 flex flex-col gap-3 sm:flex-row">
+                <div className="mt-9 flex flex-col gap-3 sm:flex-row">
                   <ButtonLink href="/plans" variant="primary" className="w-full sm:w-auto">
-                    View plans
+                    Choose a plan
                   </ButtonLink>
                   <ButtonLink href="/menu" variant="outline" className="w-full sm:w-auto">
-                    See February menu
+                    See February rotation
                   </ButtonLink>
                 </div>
 
-                <div className="mt-6 text-xs text-slate-500">
-                  Home is for plan selection; details and full durations stay on Plans.
+                <div className="mt-8 grid gap-3 sm:grid-cols-3">
+                  <div className="rounded-2xl bg-white/10 p-4 ring-1 ring-white/10 backdrop-blur-xl">
+                    <div className="text-xs font-bold uppercase tracking-widest text-white/60">Rotation</div>
+                    <div className="mt-1 text-sm font-black text-white">Daily variety</div>
+                  </div>
+                  <div className="rounded-2xl bg-white/10 p-4 ring-1 ring-white/10 backdrop-blur-xl">
+                    <div className="text-xs font-bold uppercase tracking-widest text-white/60">Protein</div>
+                    <div className="mt-1 text-sm font-black text-white">Veg → Chicken</div>
+                  </div>
+                  <div className="rounded-2xl bg-white/10 p-4 ring-1 ring-white/10 backdrop-blur-xl">
+                    <div className="text-xs font-bold uppercase tracking-widest text-white/60">Control</div>
+                    <div className="mt-1 text-sm font-black text-white">Pause anytime</div>
+                  </div>
                 </div>
               </div>
 
-              <div className="relative min-h-[320px] bg-gradient-to-br from-emerald-50 to-orange-50 lg:min-h-[520px]">
-                <Image
-                  src="/images/hero/morning-nutriz-hero.jpg"
-                  alt="Morning Nutriz hero breakfast bowl"
-                  fill
-                  priority
-                  sizes="(max-width: 1024px) 100vw, 50vw"
-                  className="object-cover"
-                />
-                <div className="absolute inset-0 bg-gradient-to-l from-black/25 via-black/0 to-black/0" />
+              {/* Floating CTA card */}
+              <div className="lg:col-span-5">
+                <div className="rounded-[32px] bg-white/10 p-7 ring-1 ring-white/15 backdrop-blur-xl shadow-[0_28px_90px_rgba(0,0,0,0.35)]">
+                  <div className="text-xs font-bold uppercase tracking-widest text-white/60">Quick start</div>
+                  <div className="mt-2 text-2xl font-black text-white">Pick a plan in seconds</div>
+
+                  <div className="mt-6 grid gap-4">
+                    <div className="rounded-2xl bg-white/8 p-5 ring-1 ring-white/10">
+                      <div className="text-sm font-black text-white">Up to {maxP.value}g protein/day</div>
+                      <div className="mt-1 text-sm text-white/70">Best for: {maxP.label || "—"}</div>
+                    </div>
+                    <div className="rounded-2xl bg-white/8 p-5 ring-1 ring-white/10">
+                      <div className="text-sm font-black text-white">
+                        Starts at {minM ? inr(minM.value) : "—"} /month
+                      </div>
+                      <div className="mt-1 text-sm text-white/70">Best entry: {minM?.label || "—"}</div>
+                    </div>
+                  </div>
+
+                  <div className="mt-7">
+                    <a
+                      href="/plans"
+                      className="inline-flex w-full items-center justify-center rounded-full bg-gradient-to-r from-emerald-500 to-emerald-400 px-6 py-3 text-sm font-black text-[#06140e] shadow-[0_22px_60px_rgba(16,185,129,0.28)] transition hover:brightness-[1.02]"
+                    >
+                      Explore plans
+                    </a>
+                  </div>
+
+                  <div className="mt-4 text-center text-xs text-white/55">
+                    Detailed durations and full breakdown on Plans page.
+                  </div>
+                </div>
               </div>
             </div>
-          </GlassCard>
-        </div>
-      </Container>
+          </div>
+        </Container>
+      </section>
 
-      {/* TRUST STRIP */}
+      {/* TRUST STRIP (still light section for contrast) */}
       <Container>
         <div className="mt-10 grid gap-4 sm:grid-cols-3">
           {[
@@ -180,7 +218,7 @@ export default function HomePage() {
         </div>
       </Container>
 
-      {/* UNIQUE FULL-BLEED PLAN PICKER */}
+      {/* FULL-BLEED PLAN PICKER (your unique section stays) */}
       <section className="relative mt-16 overflow-hidden">
         <div className="absolute inset-0 bg-[#06140e]" />
         <div className="absolute -left-40 -top-40 h-[520px] w-[520px] rounded-full bg-emerald-500/20 blur-[90px]" />
@@ -205,7 +243,6 @@ export default function HomePage() {
           </div>
 
           <div className="mt-12 grid gap-6 lg:grid-cols-12">
-            {/* Featured */}
             {featured && (
               <div className="lg:col-span-5">
                 <div className="relative h-full overflow-hidden rounded-[32px] bg-gradient-to-b from-emerald-500/22 to-white/6 p-[1px]">
@@ -258,15 +295,12 @@ export default function HomePage() {
                       ))}
                     </div>
 
-                    <div className="mt-7 text-xs text-white/55">
-                      Tip: Start here, switch later anytime.
-                    </div>
+                    <div className="mt-7 text-xs text-white/55">Tip: Start here, switch later anytime.</div>
                   </div>
                 </div>
               </div>
             )}
 
-            {/* Others */}
             <div className="lg:col-span-7">
               <div className="grid gap-6 sm:grid-cols-2">
                 {others.map((p) => {
@@ -283,9 +317,7 @@ export default function HomePage() {
                           <div className="text-xs font-bold uppercase tracking-widest text-white/60">{p.category}</div>
                           <div className="mt-2 font-display text-xl font-extrabold text-white">{p.planName}</div>
                         </div>
-                        <div className={`rounded-full px-3 py-1 text-xs font-black ${badge.cls}`}>
-                          {badge.text}
-                        </div>
+                        <div className={`rounded-full px-3 py-1 text-xs font-black ${badge.cls}`}>{badge.text}</div>
                       </div>
 
                       <div className="mt-6 flex items-end justify-between gap-4">
@@ -369,12 +401,8 @@ export default function HomePage() {
                 </div>
 
                 <div className="mt-8 flex gap-3">
-                  <ButtonLink href="/menu" variant="outline">
-                    See menu
-                  </ButtonLink>
-                  <ButtonLink href="/plans" variant="primary">
-                    Start
-                  </ButtonLink>
+                  <ButtonLink href="/menu" variant="outline">See menu</ButtonLink>
+                  <ButtonLink href="/plans" variant="primary">Start</ButtonLink>
                 </div>
               </div>
 
@@ -392,21 +420,23 @@ export default function HomePage() {
         </div>
       </Container>
 
-      {/* TESTIMONIALS */}
+      {/* FAQ (unique trust builder) */}
       <Container>
         <div className="mt-16 text-center">
-          <h2 className="font-display text-3xl font-black text-slate-900">People love the routine</h2>
+          <h2 className="font-display text-3xl font-black text-slate-900">Questions, answered</h2>
+          
         </div>
 
-        <div className="mt-10 grid gap-6 md:grid-cols-3">
+        <div className="mt-10 grid gap-6 lg:grid-cols-2">
           {[
-            { name: "Regular customer", text: "Fresh, clean and consistent. Finally a breakfast routine I stick to." },
-            { name: "Working professional", text: "Saves time every morning and still feels premium." },
-            { name: "Fitness focused", text: "Non‑veg premium is a game changer for protein." },
-          ].map((t) => (
-            <div key={t.name} className="rounded-3xl bg-white/70 p-7 ring-1 ring-slate-900/10 backdrop-blur-xl">
-              <div className="text-sm font-black text-slate-900">{t.name}</div>
-              <p className="mt-3 text-sm text-slate-600">“{t.text}”</p>
+            { q: "Do plans change daily?", a: "Yes—your bowl follows the February rotation menu so you get variety automatically." },
+            { q: "Can I switch plans later?", a: "Yes. Start with Veg Premium (recommended) and switch to eggs/chicken later anytime." },
+            { q: "Can I add extra protein?", a: "Yes—add-ons like extra eggs, chicken, and protein salad can be added as needed." },
+            { q: "Is this subscription flexible?", a: "Yes—pause or cancel anytime, and restart when your routine needs it." },
+          ].map((x) => (
+            <div key={x.q} className="rounded-3xl bg-white/70 p-7 ring-1 ring-slate-900/10 backdrop-blur-xl">
+              <div className="text-base font-black text-slate-900">{x.q}</div>
+              <p className="mt-2 text-sm text-slate-600">{x.a}</p>
             </div>
           ))}
         </div>
