@@ -1,42 +1,149 @@
 @import "tailwindcss";
 
+/* Tailwind v4 tokens live here */
 @theme {
-  /* Flyer-inspired colors */
-  --color-primary: #00A651;        /* vibrant green */
-  --color-primary-dark: #00843D;   /* darker green */
-  --color-accent: #FF6B00;         /* orange */
-  --color-accent-dark: #E55A00;    /* darker orange */
-  --color-cream: #FAFAFA;          /* light bg */
-  --color-sun: #FFF3CD;            /* subtle yellow */
+  /* Brand colors (from your flyer-inspired palette) */
+  --color-primary: #00a651;
+  --color-primary-dark: #00843d;
+  --color-accent: #ff6b00;
+  --color-accent-dark: #e55a00;
 
-  /* Bold typography */
+  /* Base neutrals (premium, not dull) */
+  --color-cream: #fbfbfd;
+  --color-ink: #0b1220;          /* deep near-black for text */
+  --color-muted: #64748b;        /* slate-500 */
+  --color-border: rgba(2, 6, 23, 0.10);
+
+  /* Subtle highlights */
+  --color-sun: #fff3cd;
+
+  /* Typography */
   --font-display: "Poppins", "SF Pro Display", system-ui, sans-serif;
   --font-sans: "Inter", "SF Pro Text", system-ui, sans-serif;
 
-  /* Radii & shadows */
-  --radius-lg: 20px;
-  --shadow-soft: 0 20px 60px rgba(0, 166, 81, 0.08);
+  /* Radii */
+  --radius-lg: 24px;
+  --radius-xl: 32px;
+
+  /* Shadows */
+  --shadow-soft: 0 20px 60px rgba(2, 6, 23, 0.10);
+  --shadow-glow: 0 30px 90px rgba(0, 166, 81, 0.10);
+  --shadow-glow-accent: 0 30px 90px rgba(255, 107, 0, 0.12);
 }
 
+@layer base {
+  *,
+  *::before,
+  *::after {
+    box-sizing: border-box;
+  }
 
-*,
-*::before,
-*::after {
-  box-sizing: border-box;
+  html,
+  body {
+    margin: 0;
+    padding: 0;
+    height: 100%;
+  }
+
+  html {
+    scroll-behavior: smooth;
+  }
+
+  body {
+    font-family: var(--font-sans);
+    background-color: var(--color-cream);
+    color: var(--color-ink);
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+    text-rendering: geometricPrecision;
+  }
+
+  ::selection {
+    background: rgba(0, 166, 81, 0.22);
+  }
+
+  a {
+    color: inherit;
+    text-decoration: none;
+  }
+
+  /* Slightly nicer default focus (still accessible) */
+  :focus-visible {
+    outline: 3px solid rgba(0, 166, 81, 0.35);
+    outline-offset: 3px;
+    border-radius: 10px;
+  }
 }
 
-html,
-body {
-  margin: 0;
-  padding: 0;
+/* ---------- Premium helpers (used by pages/components) ---------- */
+
+/* Full-bleed premium background:
+   - More depth
+   - Less “flat wash”
+   - Works great behind glass cards */
+.bg-premium {
+  position: relative;
+  isolation: isolate;
+  background:
+    radial-gradient(1200px 700px at 12% 6%, rgba(0, 166, 81, 0.22), transparent 55%),
+    radial-gradient(1000px 680px at 88% 10%, rgba(255, 107, 0, 0.20), transparent 55%),
+    radial-gradient(900px 620px at 75% 92%, rgba(59, 130, 246, 0.14), transparent 56%),
+    radial-gradient(900px 620px at 10% 92%, rgba(168, 85, 247, 0.10), transparent 60%),
+    linear-gradient(180deg, #ffffff 0%, #f8fafc 35%, #f1f5f9 70%, #eef2ff 100%);
 }
 
-body {
-  font-family: var(--font-sans);
-  background-color: var(--color-cream);
+.bg-premium::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  z-index: -1;
+  pointer-events: none;
+  opacity: 0.055;
+  /* subtle noise */
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='160' height='160'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='.9' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='160' height='160' filter='url(%23n)' opacity='.25'/%3E%3C/svg%3E");
+  mix-blend-mode: multiply;
 }
 
-/* Utility helpers */
+.bg-premium::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  z-index: -1;
+  pointer-events: none;
+  /* a faint vignette for “depth” */
+  background: radial-gradient(1200px 800px at 50% 30%, transparent 40%, rgba(2, 6, 23, 0.06) 100%);
+}
+
+/* Better “glass” feel across the site */
+.glass {
+  background: rgba(255, 255, 255, 0.72);
+  border: 1px solid var(--color-border);
+  backdrop-filter: blur(18px);
+  -webkit-backdrop-filter: blur(18px);
+  box-shadow: var(--shadow-soft);
+  border-radius: var(--radius-xl);
+}
+
+.glass-strong {
+  background: rgba(255, 255, 255, 0.82);
+  border: 1px solid rgba(2, 6, 23, 0.12);
+  backdrop-filter: blur(20px);
+  -webkit-backdrop-filter: blur(20px);
+  box-shadow: var(--shadow-soft);
+  border-radius: var(--radius-xl);
+}
+
+/* Premium text helpers */
+.text-display {
+  font-family: var(--font-display);
+  letter-spacing: -0.02em;
+}
+
+.text-muted {
+  color: var(--color-muted);
+}
+
+/* Brand utility helpers (keep these because your code uses them) */
 .bg-primary {
   background-color: var(--color-primary);
 }
@@ -46,18 +153,38 @@ body {
 .bg-accent {
   background-color: var(--color-accent);
 }
+.bg-accent-dark {
+  background-color: var(--color-accent-dark);
+}
+.text-primary {
+  color: var(--color-primary);
+}
 .text-accent {
   color: var(--color-accent);
 }
+
 .shadow-soft {
   box-shadow: var(--shadow-soft);
 }
-/* Premium background helper */
-.bg-premium {
-  background:
-    radial-gradient(600px 400px at 20% 10%, rgba(16, 185, 129, 0.18), transparent 60%),
-    radial-gradient(500px 420px at 85% 15%, rgba(251, 146, 60, 0.18), transparent 55%),
-    radial-gradient(700px 520px at 80% 90%, rgba(56, 189, 248, 0.16), transparent 55%),
-    linear-gradient(to bottom, #f8fafc, #ffffff, #f8fafc);
+.shadow-glow {
+  box-shadow: var(--shadow-glow);
+}
+.shadow-glow-accent {
+  box-shadow: var(--shadow-glow-accent);
 }
 
+/* Optional: nicer scrollbars (Chromium/WebKit) */
+::-webkit-scrollbar {
+  width: 12px;
+}
+::-webkit-scrollbar-track {
+  background: rgba(2, 6, 23, 0.04);
+}
+::-webkit-scrollbar-thumb {
+  background: rgba(2, 6, 23, 0.18);
+  border-radius: 999px;
+  border: 3px solid rgba(2, 6, 23, 0.04);
+}
+::-webkit-scrollbar-thumb:hover {
+  background: rgba(2, 6, 23, 0.28);
+}
