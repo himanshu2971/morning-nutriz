@@ -70,7 +70,7 @@ export default function HomePage() {
                 </div>
 
                 <div className="mt-6 text-xs text-slate-500">
-                  Inspired by what works in the category: clear plans, delivery promise, hygiene and trust.
+                  No hardcoding: plan cards below are driven from your catalog data.
                 </div>
               </div>
 
@@ -93,21 +93,24 @@ export default function HomePage() {
       {/* TRUST STRIP */}
       <Container>
         <div className="mt-10 grid gap-4 sm:grid-cols-3">
-          <div className="rounded-3xl bg-white/70 p-6 ring-1 ring-slate-900/10 backdrop-blur-xl">
-            <div className="text-xs font-bold uppercase tracking-widest text-slate-500">Delivery</div>
-            <div className="mt-1 text-lg font-black text-slate-900">Morning routine-ready</div>
-            <p className="mt-2 text-sm text-slate-600">Consistent timing that fits work and school.</p>
-          </div>
-          <div className="rounded-3xl bg-white/70 p-6 ring-1 ring-slate-900/10 backdrop-blur-xl">
-            <div className="text-xs font-bold uppercase tracking-widest text-slate-500">Hygiene</div>
-            <div className="mt-1 text-lg font-black text-slate-900">Clean packing</div>
-            <p className="mt-2 text-sm text-slate-600">Fresh prep, sealed packaging, and reliable handling.</p>
-          </div>
-          <div className="rounded-3xl bg-white/70 p-6 ring-1 ring-slate-900/10 backdrop-blur-xl">
-            <div className="text-xs font-bold uppercase tracking-widest text-slate-500">Rotation</div>
-            <div className="mt-1 text-lg font-black text-slate-900">Menu changes daily</div>
-            <p className="mt-2 text-sm text-slate-600">Variety without decision fatigue.</p>
-          </div>
+          {[
+            {
+              k: "Delivery",
+              t: "Morning routine-ready",
+              d: "Consistent timing that fits work and school.",
+            },
+            { k: "Hygiene", t: "Clean packing", d: "Fresh prep, sealed packaging, reliable handling." },
+            { k: "Rotation", t: "Menu changes daily", d: "Variety without decision fatigue." },
+          ].map((x) => (
+            <div
+              key={x.k}
+              className="rounded-3xl bg-white/70 p-6 ring-1 ring-slate-900/10 backdrop-blur-xl"
+            >
+              <div className="text-xs font-bold uppercase tracking-widest text-slate-500">{x.k}</div>
+              <div className="mt-1 text-lg font-black text-slate-900">{x.t}</div>
+              <p className="mt-2 text-sm text-slate-600">{x.d}</p>
+            </div>
+          ))}
         </div>
       </Container>
 
@@ -118,7 +121,7 @@ export default function HomePage() {
             Choose your plan
           </h2>
           <p className="mx-auto mt-3 max-w-2xl text-sm text-slate-600">
-            Product-style cards (shop feel), driven from your catalog (no random hardcoding).
+            Shop-style plan cards with clear “starts at” pricing.
           </p>
         </div>
 
@@ -187,7 +190,7 @@ export default function HomePage() {
               <div>
                 <h2 className="font-display text-3xl font-black text-slate-900">How it works</h2>
                 <p className="mt-3 text-sm text-slate-600">
-                  Simple flow like the best competitors: pick plan → rotate menu → daily delivery.
+                  Simple flow: pick plan → menu rotates → delivered fresh → upgrade with add-ons.
                 </p>
 
                 <div className="mt-8 grid gap-4">
@@ -224,11 +227,10 @@ export default function HomePage() {
         </div>
       </Container>
 
-      {/* TESTIMONIALS (placeholder UI; later we will move these into catalog + Postman) */}
+      {/* TESTIMONIALS (temporary; will move to Postman-managed catalog later) */}
       <Container>
         <div className="mt-16 text-center">
           <h2 className="font-display text-3xl font-black text-slate-900">People love the routine</h2>
-          
         </div>
 
         <div className="mt-10 grid gap-6 md:grid-cols-3">
@@ -245,7 +247,6 @@ export default function HomePage() {
         </div>
       </Container>
 
-      {/* FOOTER SPACER */}
       <div className="h-16" />
     </div>
   );
