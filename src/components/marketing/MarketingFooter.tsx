@@ -63,7 +63,7 @@ export function MarketingFooter() {
           </div>
 
           {/* Right */}
-          <div className="flex gap-4 sm:justify-end">
+          <div className="flex gap-3 sm:justify-end">
             <Link href="/privacy" className="hover:text-slate-900">
               Privacy
             </Link>
