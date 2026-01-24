@@ -5,10 +5,10 @@ import { Container } from "@/components/ui/Container";
 import { ButtonLink } from "@/components/ui/Button";
 
 const nav = [
-  { href: "/menu", label: "Menu" },
   { href: "/plans", label: "Plans" },
+  { href: "/menu", label: "Menu" },
   { href: "/how-it-works", label: "How it works" },
-  { href: "/areas", label: "Areas" },
+  // { href: "/areas", label: "Areas" },
 ];
 
 export function MarketingHeader() {
@@ -30,10 +30,13 @@ export function MarketingHeader() {
             </div>
 
             <div className="leading-tight">
-              <div className="text-sm font-black text-slate-900">Morning Nutriz</div>
-              <div className="text-[11px] font-bold text-slate-500">
-                Bengaluru · Healthy mornings
+              <div className="text-xl font-extrabold tracking-tight text-emerald-950">
+                Morning Nutriz
               </div>
+
+              {/* <div className="text-[11px] font-bold text-slate-500">
+                Bengaluru · Healthy mornings
+              </div> */}
             </div>
           </Link>
 
@@ -50,7 +53,11 @@ export function MarketingHeader() {
           </nav>
 
           <div className="flex items-center gap-2">
-            <ButtonLink href="/login" variant="outline" className="hidden sm:inline-flex">
+            <ButtonLink
+              href="/login"
+              variant="outline"
+              className="hidden sm:inline-flex"
+            >
               Login
             </ButtonLink>
             <ButtonLink href="/plans" variant="primary">

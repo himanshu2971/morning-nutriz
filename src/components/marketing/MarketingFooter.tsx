@@ -37,7 +37,7 @@ export function MarketingFooter() {
             <div className="mt-3 grid gap-2 text-slate-600">
               <div>Bengaluru, India</div>
               <div>Support: support@morningnutriz.com</div>
-              <div>WhatsApp: +91-XXXXXXXXXX</div>
+              <div>WhatsApp: +91-9113276708</div>
             </div>
           </div>
         </div>
