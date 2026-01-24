@@ -16,14 +16,14 @@ export function MarketingHeader() {
     <header className="sticky top-0 z-40 border-b border-white/40 bg-white/60 backdrop-blur-xl">
       <Container>
         <div className="flex h-16 items-center justify-between">
-          <Link href="/" className="flex items-center gap-3">
+          <Link href="/" className="flex items-center gap-2">
             {/* Logo mark */}
-            <div className="relative h-10 w-10 overflow-hidden rounded-2xl bg-white shadow-sm ring-1 ring-slate-900/10">
+            <div className="relative h-10 w-18">
               <Image
-                src="/images/brand/logo-mark.png"
+                src="/images/brand/logo.png"
                 alt="Morning Nutriz"
                 fill
-                sizes="40px"
+                sizes="40x"
                 className="object-contain p-1"
                 priority
               />

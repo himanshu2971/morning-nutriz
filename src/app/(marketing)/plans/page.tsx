@@ -5,7 +5,14 @@ import { GlassCard } from "@/components/ui/GlassCard";
 import { ButtonLink } from "@/components/ui/Button";
 import { getCatalog, type PlanDurationKey } from "@/lib/catalog";
 
-const ORDER: PlanDurationKey[] = ["1_day", "2_days", "3_days", "1_week", "2_weeks", "monthly"];
+const ORDER: PlanDurationKey[] = [
+  "1_day",
+  "2_days",
+  "3_days",
+  "1_week",
+  "2_weeks",
+  "monthly",
+];
 
 const LABELS: Record<PlanDurationKey, string> = {
   "1_day": "1 Day",
@@ -13,7 +20,7 @@ const LABELS: Record<PlanDurationKey, string> = {
   "3_days": "3 Days",
   "1_week": "1 Week",
   "2_weeks": "2 Weeks",
-  "monthly": "Monthly",
+  monthly: "Monthly",
 };
 
 function inr(n: number) {
@@ -21,9 +28,12 @@ function inr(n: number) {
 }
 
 function planBadge(planId: string) {
-  if (planId === "veg-premium") return { text: "Most Popular", cls: "bg-accent text-white" };
-  if (planId === "nonveg-premium") return { text: "High Protein", cls: "bg-slate-900 text-white" };
-  if (planId === "children") return { text: "Kids", cls: "bg-primary text-white" };
+  if (planId === "veg-premium")
+    return { text: "Most Popular", cls: "bg-accent text-white" };
+  if (planId === "nonveg-premium")
+    return { text: "High Protein", cls: "bg-slate-900 text-white" };
+  if (planId === "children")
+    return { text: "Kids", cls: "bg-primary text-white" };
   return { text: "Daily", cls: "bg-primary/10 text-primary" };
 }
 
@@ -53,20 +63,30 @@ export default function PlansPage() {
                 </h1>
 
                 <p className="mt-4 max-w-xl text-lg leading-relaxed text-slate-600">
-                  Pick Veg / Non‑Veg / Kids. Menu rotates daily. Upgrade anytime with add-ons.
+                  Pick Veg / Non‑Veg / Kids. Menu rotates daily. Upgrade anytime
+                  with add-ons.
                 </p>
 
                 <div className="mt-10 flex flex-col gap-3 sm:flex-row">
-                  <ButtonLink href="/login" variant="primary" className="w-full sm:w-auto">
+                  <ButtonLink
+                    href="/login"
+                    variant="primary"
+                    className="w-full sm:w-auto"
+                  >
                     Start subscription
                   </ButtonLink>
-                  <ButtonLink href="/menu" variant="outline" className="w-full sm:w-auto">
+                  <ButtonLink
+                    href="/menu"
+                    variant="outline"
+                    className="w-full sm:w-auto"
+                  >
                     See February rotation
                   </ButtonLink>
                 </div>
 
                 <div className="mt-6 text-xs text-slate-500">
-                  All prices and plan compositions are driven from your catalog data.
+                  All prices and plan compositions are driven from your catalog
+                  data.
                 </div>
               </div>
 
@@ -98,7 +118,10 @@ export default function PlansPage() {
         <div className="mt-10 grid gap-6 md:grid-cols-2 lg:grid-cols-3">
           {plans.map((p) => {
             const badge = planBadge(p.id);
-            const featured = p.pricesInr.monthly ?? p.pricesInr["1_week"] ?? p.pricesInr["1_day"];
+            const featured =
+              p.pricesInr.monthly ??
+              p.pricesInr["1_week"] ??
+              p.pricesInr["1_day"];
 
             return (
               <div
@@ -115,7 +138,9 @@ export default function PlansPage() {
                     className="object-cover transition duration-300 group-hover:scale-[1.02]"
                   />
                   <div className="absolute left-4 top-4">
-                    <div className={`rounded-full px-3 py-1 text-xs font-black ${badge.cls}`}>
+                    <div
+                      className={`rounded-full px-3 py-1 text-xs font-black ${badge.cls}`}
+                    >
                       {badge.text}
                     </div>
                   </div>
@@ -129,10 +154,14 @@ export default function PlansPage() {
                     {p.planName}
                   </div>
 
-                  <div className="mt-3 text-sm leading-relaxed text-slate-600">{p.dailyMenu}</div>
+                  <div className="mt-3 text-sm leading-relaxed text-slate-600">
+                    {p.dailyMenu}
+                  </div>
 
                   <div className="mt-4 text-sm">
-                    <span className="font-semibold text-slate-900">Protein/day:</span>{" "}
+                    <span className="font-semibold text-slate-900">
+                      Protein/day:
+                    </span>{" "}
                     <span className="text-slate-600">{p.proteinPerDay}</span>
                   </div>
 
@@ -142,7 +171,9 @@ export default function PlansPage() {
                       Best pick
                     </div>
                     <div className="mt-2 flex items-baseline justify-between">
-                      <div className="text-sm font-bold text-slate-700">Monthly / Weekly</div>
+                      <div className="text-sm font-bold text-slate-700">
+                        Monthly / Weekly
+                      </div>
                       <div className="text-3xl font-black text-slate-900">
                         {featured ? inr(featured) : "—"}
                       </div>
@@ -161,9 +192,14 @@ export default function PlansPage() {
                       {ORDER.map((k) => {
                         const price = p.pricesInr[k];
                         return (
-                          <div key={k} className="flex items-center justify-between px-5 py-3 text-sm">
+                          <div
+                            key={k}
+                            className="flex items-center justify-between px-5 py-3 text-sm"
+                          >
                             <span className="text-slate-600">{LABELS[k]}</span>
-                            <span className="font-black text-slate-900">{price ? inr(price) : "—"}</span>
+                            <span className="font-black text-slate-900">
+                              {price ? inr(price) : "—"}
+                            </span>
                           </div>
                         );
                       })}
@@ -172,7 +208,11 @@ export default function PlansPage() {
 
                   {/* CTA pinned */}
                   <div className="mt-auto pt-6">
-                    <ButtonLink href="/login" variant="primary" className="w-full">
+                    <ButtonLink
+                      href="/login"
+                      variant="primary"
+                      className="w-full"
+                    >
                       Start this plan
                     </ButtonLink>
                     <div className="mt-3 text-center text-xs text-slate-500">
@@ -190,7 +230,9 @@ export default function PlansPage() {
           <GlassCard className="p-8 sm:p-10">
             <div className="flex flex-col gap-3 sm:flex-row sm:items-end sm:justify-between">
               <div>
-                <h2 className="font-display text-3xl font-black text-slate-900">Add-ons</h2>
+                <h2 className="font-display text-3xl font-black text-slate-900">
+                  Add-ons
+                </h2>
                 <p className="mt-2 max-w-2xl text-sm text-slate-600">
                   Boost protein or volume without changing your base plan.
                 </p>
@@ -209,11 +251,19 @@ export default function PlansPage() {
                   <div className="inline-flex w-fit rounded-full bg-slate-900 px-3 py-1 text-xs font-black text-white">
                     {a.portion}
                   </div>
-                  <div className="mt-3 text-lg font-black text-slate-900">{a.name}</div>
-                  <div className="mt-4 text-3xl font-black text-slate-900">{inr(a.priceInr)}</div>
+                  <div className="mt-3 text-lg font-black text-slate-900">
+                    {a.name}
+                  </div>
+                  <div className="mt-4 text-3xl font-black text-slate-900">
+                    {inr(a.priceInr)}
+                  </div>
 
                   <div className="mt-auto pt-6">
-                    <ButtonLink href="/login" variant="primary" className="w-full">
+                    <ButtonLink
+                      href="/login"
+                      variant="primary"
+                      className="w-full"
+                    >
                       Add-on
                     </ButtonLink>
                   </div>

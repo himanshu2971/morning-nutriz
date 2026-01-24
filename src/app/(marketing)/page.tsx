@@ -4,6 +4,7 @@ import { Container } from "@/components/ui/Container";
 import { GlassCard } from "@/components/ui/GlassCard";
 import { ButtonLink } from "@/components/ui/Button";
 import { getCatalog } from "@/lib/catalog";
+import LeadEnquiryForm from "@/components/home/LeadEnquiryForm";
 
 type Plan = {
   id: string;
@@ -19,7 +20,12 @@ function inr(n: number) {
 }
 
 function bestPrice(plan: Plan) {
-  return plan.pricesInr.monthly ?? plan.pricesInr["2_weeks"] ?? plan.pricesInr["1_week"] ?? plan.pricesInr["1_day"];
+  return (
+    plan.pricesInr.monthly ??
+    plan.pricesInr["2_weeks"] ??
+    plan.pricesInr["1_week"] ??
+    plan.pricesInr["1_day"]
+  );
 }
 
 function priceSuffix(plan: Plan) {
@@ -57,7 +63,9 @@ function parseDailyMenuBullets(plan: Plan) {
 function maxProtein(plans: Plan[]) {
   let best = { value: 0, label: "" };
   for (const p of plans) {
-    const nums = (p.proteinPerDay.match(/\d+/g) || []).map((x) => Number(x)).filter((n) => !Number.isNaN(n));
+    const nums = (p.proteinPerDay.match(/\d+/g) || [])
+      .map((x) => Number(x))
+      .filter((n) => !Number.isNaN(n));
     const max = nums.length ? Math.max(...nums) : 0;
     if (max > best.value) best = { value: max, label: p.planName };
   }
@@ -92,9 +100,11 @@ export default function HomePage() {
   const { plans } = getCatalog() as { plans: Plan[] };
 
   const featuredId =
-    plans.some((p) => p.id === "veg-premium") ? "veg-premium" :
-    plans.some((p) => p.id === "nonveg-premium") ? "nonveg-premium" :
-    plans[0]?.id;
+    plans.some((p) => p.id === "veg-premium")
+      ? "veg-premium"
+      : plans.some((p) => p.id === "nonveg-premium")
+        ? "nonveg-premium"
+        : plans[0]?.id;
 
   const featured = plans.find((p) => p.id === featuredId) ?? plans[0];
   const others = plans.filter((p) => p.id !== featured?.id);
@@ -218,6 +228,7 @@ export default function HomePage() {
         </div>
       </Container>
 
+      
       {/* FULL-BLEED PLAN PICKER (your unique section stays) */}
       <section className="relative mt-16 overflow-hidden">
         <div className="absolute inset-0 bg-[#06140e]" />
@@ -401,8 +412,12 @@ export default function HomePage() {
                 </div>
 
                 <div className="mt-8 flex gap-3">
-                  <ButtonLink href="/menu" variant="outline">See menu</ButtonLink>
-                  <ButtonLink href="/plans" variant="primary">Start</ButtonLink>
+                  <ButtonLink href="/menu" variant="outline">
+                    See menu
+                  </ButtonLink>
+                  <ButtonLink href="/plans" variant="primary">
+                    Start
+                  </ButtonLink>
                 </div>
               </div>
 
@@ -424,7 +439,6 @@ export default function HomePage() {
       <Container>
         <div className="mt-16 text-center">
           <h2 className="font-display text-3xl font-black text-slate-900">Questions, answered</h2>
-          
         </div>
 
         <div className="mt-10 grid gap-6 lg:grid-cols-2">
@@ -440,7 +454,66 @@ export default function HomePage() {
             </div>
           ))}
         </div>
+        
       </Container>
+{/* NEW: LEAD / ENQUIRY FORM — PREMIUM BACKGROUND */}
+      <section className="relative mt-16 overflow-hidden">
+        {/* Base premium gradient */}
+        <div
+          className={[
+            "absolute inset-0",
+            "bg-[radial-gradient(1200px_600px_at_15%_10%,rgba(16,185,129,0.20),transparent_60%)]",
+            "bg-[radial-gradient(900px_500px_at_90%_20%,rgba(249,115,22,0.16),transparent_60%)]",
+            "bg-[radial-gradient(1000px_700px_at_50%_115%,rgba(56,189,248,0.10),transparent_55%)]",
+            "bg-[linear-gradient(180deg,#040a07_0%,#06140e_55%,#040a07_100%)]",
+          ].join(" ")}
+        />
+
+        {/* Subtle grid overlay (premium tech feel) */}
+        <div
+          className={[
+            "absolute inset-0 opacity-[0.10]",
+            "[background-image:linear-gradient(to_right,rgba(255,255,255,0.10)_1px,transparent_1px),linear-gradient(to_bottom,rgba(255,255,255,0.10)_1px,transparent_1px)]",
+            "[background-size:64px_64px]",
+            "[mask-image:radial-gradient(ellipse_75%_60%_at_50%_35%,#000_55%,transparent_100%)]",
+          ].join(" ")}
+        />
+
+        {/* Soft top vignette */}
+        <div className="absolute inset-0 bg-gradient-to-b from-black/35 via-transparent to-black/25" />
+
+        <Container className="relative py-16">
+          <div className="grid gap-10 lg:grid-cols-12 lg:items-start">
+            <div className="lg:col-span-5">
+              <div className="inline-flex items-center gap-2 rounded-full bg-white/10 px-4 py-2 text-xs font-black text-black ring-1 ring-white/10 backdrop-blur">
+                Enquiry • Quick callback
+              </div>
+              <h2 className="mt-6 font-display text-3xl font-black text-black sm:text-4xl">
+                Want help choosing?
+              </h2>
+              <p className="mt-3 text-sm leading-relaxed text-black/70">
+                Tell us your area and the plan you want. We’ll call to confirm delivery feasibility and
+                suggest the best option.
+              </p>
+
+              <div className="mt-8 overflow-hidden rounded-[28px] bg-white/5 ring-1 ring-white/10">
+                <Image
+                  src="/images/sections/enquiry-card.jpg"
+                  alt="Enquiry illustration"
+                  width={1200}
+                  height={900}
+                  className="h-auto w-full object-cover"
+                />
+              </div>
+
+            </div>
+
+            <div className="lg:col-span-7">
+              <LeadEnquiryForm />
+            </div>
+          </div>
+        </Container>
+      </section>
 
       <div className="h-16" />
     </div>
