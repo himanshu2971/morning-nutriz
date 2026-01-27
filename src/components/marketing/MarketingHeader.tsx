@@ -60,9 +60,9 @@ export function MarketingHeader() {
             >
               Login
             </ButtonLink>
-            <ButtonLink href="/plans" variant="primary">
+            {/* <ButtonLink href="/plans" variant="primary">
               Start
-            </ButtonLink>
+            </ButtonLink> */}
           </div>
         </div>
       </Container>
