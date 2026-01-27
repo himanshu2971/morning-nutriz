@@ -10,7 +10,7 @@ type Props = {
 function buildWaMeUrl(phoneE164: string, defaultText?: string) {
   // WhatsApp requires international format digits only (no +, no spaces/dashes). [web:146]
   const digitsOnly = phoneE164.replace(/[^\d]/g, '')
-  const base = `https://wa.me/919001207105`
+  const base = `https://wa.me/919113276708`
   if (!defaultText) return base
   return `${base}?text=${encodeURIComponent(defaultText)}`
 }
