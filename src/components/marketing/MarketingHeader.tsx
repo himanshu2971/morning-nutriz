@@ -8,61 +8,49 @@ const nav = [
   { href: "/plans", label: "Plans" },
   { href: "/menu", label: "Menu" },
   { href: "/how-it-works", label: "How it works" },
-  // { href: "/areas", label: "Areas" },
 ];
 
 export function MarketingHeader() {
   return (
-    <header className="sticky top-0 z-40 border-b border-white/40 bg-white/60 backdrop-blur-xl">
+    <header className="sticky top-0 z-40">
       <Container>
-        <div className="flex h-16 items-center justify-between">
-          <Link href="/" className="flex items-center gap-2">
-            {/* Logo mark */}
-            <div className="relative h-10 w-18">
-              <Image
-                src="/images/brand/logo.png"
-                alt="Morning Nutriz"
-                fill
-                sizes="40x"
-                className="object-contain p-1"
-                priority
-              />
-            </div>
-
-            <div className="leading-tight">
-              <div className="text-xl font-extrabold tracking-tight text-emerald-950">
-                Morning Nutriz
-              </div>
-
-              {/* <div className="text-[11px] font-bold text-slate-500">
-                Bengaluru · Healthy mornings
-              </div> */}
-            </div>
-          </Link>
-
-          <nav className="hidden items-center gap-6 md:flex">
-            {nav.map((x) => (
-              <Link
-                key={x.href}
-                href={x.href}
-                className="text-sm font-bold text-slate-700 hover:text-slate-900"
-              >
-                {x.label}
+        <div className="pt-4">
+          <div className="rounded-[28px] border border-black/10 bg-white/85 px-4 backdrop-blur-xl shadow-[0_18px_60px_rgba(0,0,0,0.10)]">
+            <div className="flex h-16 items-center justify-between">
+              <Link href="/" className="flex items-center gap-3">
+                <Image
+                  src="/images/brand/Logo.jpg"
+                  alt="Morning Nutriz"
+                  width={48}
+                  height={48}
+                  className="rounded-xl ring-1 ring-black/10 object-cover"
+                  priority
+                />
+                <div className="text-lg font-extrabold tracking-tight text-slate-900 sm:text-xl">
+                  Morning Nutriz
+                </div>
               </Link>
-            ))}
-          </nav>
 
-          <div className="flex items-center gap-2">
-            <ButtonLink
-              href="/login"
-              variant="outline"
-              className="hidden sm:inline-flex"
-            >
-              Login
-            </ButtonLink>
-            {/* <ButtonLink href="/plans" variant="primary">
-              Start
-            </ButtonLink> */}
+              <nav className="hidden items-center gap-8 md:flex">
+                {nav.map((x) => (
+                  <Link
+                    key={x.href}
+                    href={x.href}
+                    className="text-sm font-bold text-slate-700 hover:text-slate-900 transition"
+                  >
+                    {x.label}
+                  </Link>
+                ))}
+              </nav>
+
+              <div className="flex items-center gap-2">
+                <ButtonLink href="/login" variant="outline" className="hidden sm:inline-flex">
+                  Login
+                </ButtonLink>
+
+                
+              </div>
+            </div>
           </div>
         </div>
       </Container>
