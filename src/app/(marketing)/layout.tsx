@@ -1,8 +1,9 @@
 // src/app/(marketing)/layout.tsx
 import type { ReactNode } from "react";
-import { MarketingHeader } from "@/components/marketing/MarketingHeader";
+import MarketingHeader from "@/components/marketing/MarketingHeader";
 import { MarketingFooter } from "@/components/marketing/MarketingFooter";
 import WhatsappFab from "@/components/marketing/WhatsappFab";
+
 
 export default function MarketingLayout({ children }: { children: ReactNode }) {
   return (
