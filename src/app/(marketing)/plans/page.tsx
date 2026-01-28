@@ -50,9 +50,23 @@ export default function PlansPage() {
       <Container>
         {/* HERO */}
         <div className="pt-10 sm:pt-14">
-          <GlassCard className="overflow-hidden">
+          <GlassCard className="relative overflow-hidden">
+            {/* Mobile-only background hero image (decorative) */}
+            <div className="absolute inset-0 lg:hidden">
+              <Image
+                src={heroForPlans()}
+                alt=""
+                fill
+                priority
+                sizes="100vw"
+                className="object-cover"
+              />
+              <div className="absolute inset-0 bg-gradient-to-b from-white/85 via-white/70 to-white/85" />
+              <div className="absolute inset-0 bg-[radial-gradient(circle_at_20%_10%,rgba(16,185,129,0.18),transparent_55%)]" />
+            </div>
+
             <div className="grid items-stretch lg:grid-cols-2">
-              <div className="p-8 sm:p-10">
+              <div className="relative z-10 p-8 sm:p-10">
                 <div className="inline-flex items-center gap-2 rounded-full bg-white/70 px-4 py-2 text-xs font-black text-slate-900 ring-1 ring-slate-900/10">
                   Plans • Pricing • Add-ons
                 </div>
@@ -90,7 +104,8 @@ export default function PlansPage() {
                 </div>
               </div>
 
-              <div className="relative min-h-[300px] bg-gradient-to-br from-emerald-50 to-orange-50 lg:min-h-[460px]">
+              {/* Desktop/tablet hero image column */}
+              <div className="relative hidden min-h-[300px] bg-gradient-to-br from-emerald-50 to-orange-50 lg:block lg:min-h-[460px]">
                 <Image
                   src={heroForPlans()}
                   alt="Plans hero"
