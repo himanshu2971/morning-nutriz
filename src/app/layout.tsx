@@ -3,6 +3,7 @@ import type { Metadata } from "next";
 import { Inter, Poppins } from "next/font/google";
 import "./globals.css";
 import { Analytics } from "@vercel/analytics/next";
+import BodyReset from "@/components/system/BodyReset";
 const poppins = Poppins({
   subsets: ["latin"],
   weight: ["600", "700", "800"],
@@ -25,6 +26,7 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
   return (
     <html lang="en" className={`${poppins.variable} ${inter.variable}`}>
       <body className="min-h-dvh bg-premium text-slate-900 antialiased font-sans">
+        <BodyReset />
         {children}
         <Analytics />
       </body>
