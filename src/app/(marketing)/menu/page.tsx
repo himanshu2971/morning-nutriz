@@ -155,9 +155,6 @@ export default async function MenuPage() {
           <h2 className="font-display text-3xl font-black text-slate-900 sm:text-4xl">
             What you get (every day)
           </h2>
-          <p className="mx-auto mt-3 max-w-2xl text-sm text-slate-600">
-            Plan composition and protein/day are shown from your catalog.
-          </p>
         </div>
 
         <div className="mt-10 grid gap-6 md:grid-cols-2 lg:grid-cols-3">
