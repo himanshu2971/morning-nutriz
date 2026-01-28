@@ -26,6 +26,7 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
     <html lang="en" className={`${poppins.variable} ${inter.variable}`}>
       <body className="min-h-dvh bg-premium text-slate-900 antialiased font-sans">
         {children}
+        <Analytics />
       </body>
     </html>
   );
