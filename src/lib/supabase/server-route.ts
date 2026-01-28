@@ -9,28 +9,21 @@ function mustGetEnv(name: string): string {
   return v;
 }
 
-export function createSupabaseServerClient() {
-  // IMPORTANT in Next 16: cookies() is async (needs await inside getAll/setAll)
-  const cookieStorePromise = cookies();
-
+export function createSupabaseRouteClient() {
   return createServerClient(
     mustGetEnv("NEXT_PUBLIC_SUPABASE_URL"),
     mustGetEnv("NEXT_PUBLIC_SUPABASE_ANON_KEY"),
     {
       cookies: {
         async getAll() {
-          const cookieStore = await cookieStorePromise;
+          const cookieStore = await cookies();
           return cookieStore.getAll();
         },
         async setAll(cookiesToSet) {
-          try {
-            const cookieStore = await cookieStorePromise;
-            cookiesToSet.forEach(({ name, value, options }) => {
-              cookieStore.set(name, value, options);
-            });
-          } catch {
-            // In some server component contexts, setting cookies is not allowed.
-          }
+          const cookieStore = await cookies();
+          cookiesToSet.forEach(({ name, value, options }) => {
+            cookieStore.set(name, value, options);
+          });
         },
       },
     }
