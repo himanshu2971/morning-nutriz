@@ -97,11 +97,6 @@ export default function PlansPage() {
                     See February rotation
                   </ButtonLink>
                 </div>
-
-                <div className="mt-6 text-xs text-slate-500">
-                  All prices and plan compositions are driven from your catalog
-                  data.
-                </div>
               </div>
 
               {/* Desktop/tablet hero image column */}
@@ -125,9 +120,6 @@ export default function PlansPage() {
           <h2 className="font-display text-3xl font-black text-slate-900 sm:text-4xl">
             Plans
           </h2>
-          <p className="mx-auto mt-3 max-w-2xl text-sm text-slate-600">
-            Shop-grade cards with consistent alignment and clear pricing.
-          </p>
         </div>
 
         <div className="mt-10 grid gap-6 md:grid-cols-2 lg:grid-cols-3">
@@ -187,7 +179,7 @@ export default function PlansPage() {
                     </div>
                     <div className="mt-2 flex items-baseline justify-between">
                       <div className="text-sm font-bold text-slate-700">
-                        Monthly / Weekly
+                        Monthly
                       </div>
                       <div className="text-3xl font-black text-slate-900">
                         {featured ? inr(featured) : "—"}

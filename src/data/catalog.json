@@ -3,7 +3,7 @@
     {
       "id": "veg-normal",
       "category": "Adult – Veg",
-      "planName": "Veg Normal",
+      "planName": "Veg Lite",
       "dailyMenu": "Fruits 180 g + Veg 100 g + Protein Salad 140 g",
       "proteinPerDay": "18–20 g",
       "pricesInr": { "1_day": 119, "2_days": 219, "3_days": 299, "1_week": 599, "2_weeks": 1099, "monthly": 2399 }
@@ -19,7 +19,7 @@
     {
       "id": "nonveg-normal",
       "category": "Adult – Non-Veg",
-      "planName": "Non-Veg Normal",
+      "planName": "Non-Veg Lite",
       "dailyMenu": "Veg Premium + 2 Eggs (~100 g)",
       "proteinPerDay": "30–32 g",
       "pricesInr": { "1_day": 179, "2_days": 329, "3_days": 449, "1_week": 799, "2_weeks": 1499, "monthly": 2999 }
